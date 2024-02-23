@@ -9,34 +9,50 @@ const MyForm = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const baseUrl = "https://emailsend-yx60.onrender.com/";
+  const baseUrl = "https://emailsend-yx60.onrender.com";
 
   const sendEmail = async () => {
-    let dataSend = {
-      email: email,
-      subject: subject,
-      message: message,
-    };
-
-    const res = await fetch(`${baseUrl}/email/sendEmail`, {
-      method: "POST",
-      body: JSON.stringify(dataSend),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    try{
+      let dataSend = {
+        email: email,
+        subject: subject,
+        message: message,
+      };
+  
+      const res = await fetch(`${baseUrl}/email/sendEmail`, {
+        method: "POST",
+        body: JSON.stringify(dataSend),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      if(res.ok){
+        console.log("send succesfuly")
+      }else{
+        throw new Error("failed to send email")    
+      }
+    }catch (error){
+      console.error("Eeror enviando email:",error)
+    }
+    
+    
       // HANDLING ERRORS
-      .then((res) => {
-        console.log(res);
-        if (res.status > 199 && res.status < 300) {
-          alert("Send Successfully !");
-        }
-      });
+      //.then((res) => {
+        //console.log(res);
+        //if (res.status > 199 && res.status < 300) {
+         // alert("Send Successfully !");
+        //}
+      //});
     };
+    const funcion=(e)=>{
+      sendEmail()
+      e.preventDefault()
+    }
+    
   return (
     <div>
-       <Form>
+       <Form >
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Email address</Form.Label>
         <Form.Control onChange={(e) => setEmail(e.target.value)} id="email" type="email" placeholder="name@example.com" />
@@ -46,7 +62,7 @@ const MyForm = () => {
         <Form.Label>Example textarea</Form.Label>
         <Form.Control as="textarea" rows={3} onChange={(e) => setMessage(e.target.value)} placeholder="Escriba su mensaje aquí..."/>
       </Form.Group>
-      <Button onClick={() => sendEmail()} type="submit">Submit form</Button>
+      <Button  onClick={(e) => funcion(e)} type="submit">Submit form</Button>
     </Form>
     </div>
   )
