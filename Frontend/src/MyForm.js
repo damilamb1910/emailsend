@@ -9,7 +9,7 @@ const MyForm = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
-  const baseUrl = "http://localhost:8000";
+  const baseUrl = "https://emailsend-yx60.onrender.com/";
 
   const sendEmail = async () => {
     let dataSend = {
